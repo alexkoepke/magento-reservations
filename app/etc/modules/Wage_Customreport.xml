@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Wage_Customreport>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Wage_Customreport>
+	</modules>
+</config>

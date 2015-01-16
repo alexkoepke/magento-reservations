@@ -1,0 +1,26 @@
+<?php $_items = Mage::getModel('reservation/reservation')->getItems($this->getReservation()); ?>
+
+<table cellspacing="0" cellpadding="0" border="0" width="650" style="border:1px solid #EAEAEA;">
+    <thead>
+    <tr>
+        <th align="left" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Item') ?></th>
+        <th align="left" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Sku') ?></th>
+        <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Qty') ?></th>
+        <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Price') ?></th>
+    </tr>
+    </thead>
+
+    <?php $i=0; foreach ($_items as $_item): ?>
+        <?php $i++; ?>
+        <tbody<?php echo $i%2 ? ' bgcolor="#F6F6F6"' : '' ?>>
+            <tr>
+                <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+                    <strong style="font-size:11px;"><?php echo $this->htmlEscape($_item['name']) ?></strong>
+                </td>
+                <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $this->htmlEscape($_item['sku']) ?></td>
+                <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $_item['qty'] ?></td>
+                <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo Mage::helper('core')->currency($_item['price'], true, false).'/lb.*' ?></td>
+            </tr>
+        </tbody>
+    <?php endforeach; ?>
+</table>

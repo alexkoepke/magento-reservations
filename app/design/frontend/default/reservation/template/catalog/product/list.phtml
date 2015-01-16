@@ -1,0 +1,171 @@
+<?php
+$_ham_products = Mage::getModel('reservation/reservation')->getHamProducts();
+$_turkey_products = Mage::getModel('reservation/reservation')->getTurkeyProducts();
+$storetype = Mage::getStoreConfig('reservation/schedules/storetype');
+$schedules = unserialize(Mage::getStoreConfig('reservation/schedules/daterange'));
+?>
+<?php if($storetype == 'express'): ?>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('express_message')->toHtml() ?>
+<?php endif; ?>
+<form action="<?php echo $this->getUrl('reservation/index/post') ?>" id="reservationForm" method="post" class="reservation">
+    <div class="fieldset">
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field">
+                    <label for="email" class="required"><em>*</em><?php echo Mage::helper('reservation')->__('E-mail Address') ?></label>
+                    <div class="input-box">
+                        <input name="email" id="email" title="<?php echo Mage::helper('reservation')->__('E-mail Address') ?>" class="input-text required-entry validate-email" type="text" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="name" class="required"><em>*</em><?php echo Mage::helper('reservation')->__('Name') ?></label>
+                    <div class="input-box">
+                        <input name="name" id="name" title="<?php echo Mage::helper('reservation')->__('Name') ?>" class="input-text required-entry" type="text" />
+                    </div>
+                </div>
+            </li>
+<!--            <li class="control"><input type="checkbox" checked="checked" class="checkbox" title="General Subscription" value="1" id="subscription" name="is_subscribed"><label for="subscription">--><?php //echo Mage::helper('reservation')->__('Sign up for the mailing list') ?><!--</label></li>-->
+        </ul>
+    </div>
+    <div class="category-products product-list">
+        <ul>
+            <li class="item">
+                <?php $hamImage = Mage::helper('catalog/image')->init(Mage::getModel('catalog/product')->load(key($_ham_products)), 'image')->resize(195,195); ?>
+                <img src="<?php echo $hamImage ?>" />
+                <ul class="products">
+                    <?php $_allIds = array(); foreach ($_ham_products as $id => $hamarray): ?>
+                        <?php $_allIds[] = 'ham'.$id; ?>
+                        <li>
+                            <?php $price = Mage::helper('core')->currency($hamarray['price'], true, false);?>
+                             <div class="aux"><span id="<?php echo 'ham'.$id.'-title' ?>"><?php echo $hamarray['name']." = ".$price."/lb.*"; ?></span></div>
+                            <select id="<?php echo 'ham'.$id ?>" name="ham[<?php echo $id ?>]" onchange="checkQty(this)">
+                                <option value='0'><?php echo Mage::helper('reservation')->__('Please Select'); ?></option>
+                                <option value='1'><?php echo Mage::helper('reservation')->__('1'); ?></option>
+                                <option value='2'><?php echo Mage::helper('reservation')->__('2'); ?></option>
+                                <option value='3'><?php echo Mage::helper('reservation')->__('3'); ?></option>
+                            </select>
+                        </li>
+                    <?php endforeach;?>
+                </ul>
+            </li>
+            <li class="item">
+                <?php $hamImage = Mage::helper('catalog/image')->init(Mage::getModel('catalog/product')->load(key($_turkey_products)), 'image')->resize(195,195); ?>
+                <img src="<?php echo $hamImage ?>" />
+                <ul class="products">
+                    <?php foreach ($_turkey_products as $id => $turkeyarray): ?>
+                        <?php $_allIds[] = 'turkey'.$id; ?>
+                        <li>
+                            <?php $price = Mage::helper('core')->currency($turkeyarray['price'], true, false);?>
+                            <div class="aux"><span id="<?php echo 'turkey'.$id.'-title' ?>"><?php echo $turkeyarray['name']." = ".$price."/lb.*"; ?></span></div>
+                            <select class="turkey" id="<?php echo 'turkey'.$id ?>" name="turkey[<?php echo $id ?>]" onchange="checkQty(this)">
+                                <option value='0'><?php echo Mage::helper('reservation')->__('Please Select'); ?></option>
+                                <option value='1'><?php echo Mage::helper('reservation')->__('1'); ?></option>
+                                <option value='2'><?php echo Mage::helper('reservation')->__('2'); ?></option>
+                                <option value='3'><?php echo Mage::helper('reservation')->__('3'); ?></option>
+                            </select>
+                        </li>
+                    <?php endforeach;?>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="calendar">
+        <h4><?php echo $this->__('Reserve date')?></h4>
+        <?php if ($tmpHtml = $this->getChildHtml('reservation_calendar')): ?>
+            <?php echo $tmpHtml; ?>
+        <?php endif; ?>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?php echo Mage::helper('reservation')->__('*Prices subject to change') ?></p>
+        <p class="required"><?php echo Mage::helper('reservation')->__('* Required Fields') ?></p>
+        <button onclick="return checkSelectedQty()" type="submit" title="<?php echo Mage::helper('reservation')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('reservation')->__('Finish Reservation') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    var reservationForm = new VarienForm('reservationForm', true);
+    function checkQty(currentSelect) {
+        var allIds = [<?php echo '"'.implode('","', $_allIds).'"' ?>];
+        var qty = 0;
+        for(var i=0;i<allIds.length;i++) {
+            var selectOb = document.getElementById(allIds[i]);
+            qty = parseInt(qty) + parseInt(selectOb.options[selectOb.selectedIndex].value);
+        }
+
+        if (Number(qty) > 3) {
+            alert("You may only reserve up to 3 products.For 4 or more items, you can place an order at honeybakedfoods.com/business-gifting or call the store and a HoneyBaked representative will help you.");
+            currentSelect.selectedIndex = 0;
+            return false;
+        }
+        return true;
+    }
+
+    function checkSelectedQty() {
+        
+            var allIds = [<?php echo '"'.implode('","', $_allIds).'"' ?>];
+            var qty = 0;
+            var k = 0;
+            var li_content = '';
+            var allTitles = new Array(new Array());
+            for(var i=0;i<allIds.length;i++) {
+                var selectOb = document.getElementById(allIds[i]);
+                qty = parseInt(qty) + parseInt(selectOb.options[selectOb.selectedIndex].value);
+                if(parseInt(selectOb.options[selectOb.selectedIndex].value) > 0)
+                {
+                    li_content = li_content + '<li><div><b>'+parseInt(selectOb.options[selectOb.selectedIndex].value)+' qty of '+document.getElementById(allIds[i]+'-title').innerHTML+'</b></div></li>';
+                }
+            }
+    
+            if (Number(qty) <= 0) {
+                alert("Please select at least 1 quantity.")
+                return false;
+            } else {
+                    if (reservationForm.validator.validate()){
+                        document.getElementById("loading-mask").style.display="block";
+            
+                        setTimeout( function() {
+                            document.body.scrollTop = document.documentElement.scrollTop = 0;
+                            document.getElementById("loading-mask").style.display="none";
+                            jQuery(".category-title").hide();
+                            $('reservationForm').hide();
+                            //$('store-name').hide();
+                            document.getElementById('reservation-items').innerHTML = li_content;
+                            document.getElementById('reservation-success').style.display = 'block';
+                            return true;
+                        }, 3000 );
+                    }else{
+                        return false;
+                    }
+    
+            }
+        
+        //return true;
+    }
+    Event.observe('reservationForm', 'submit', function(event) {
+        $('reservationForm').request({
+            onFailure: function() {  },
+            onSuccess: function(t) {
+                //$('result').update(t.responseText);
+            }
+        });
+        Event.stop(event); // stop the form from submitting
+    });
+
+    //]]>
+</script>
+
+<div id="reservation-success" style="display: none;">
+    <div class="reservation-store-title"><?php echo $this->__('Find a Store') ?></div>
+    <div class="reservation-make-title"><?php echo $this->__('Make a Reservation') ?></div>
+    <h2 class="reservation-success-title"><?php echo $this->__('Success!') ?></h2>
+    <p><?php echo $this->__('Your order has been processed. You will be receiving:') ?></p>
+    <ul id="reservation-items">
+
+    </ul>
+    <br/>
+    <p><?php echo $this->__('Payment due at pickup.') ?></p>
+    <p><?php echo $this->__('*Prices subject to change') ?></p>
+</div>
+<div style="left: 50%; top: 50%; display: none; " id="loading-mask">
+    <p id="loading_mask_loader" class="loader"><img alt="<?php echo $this->__('Loading...') ?>" src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>"><br><?php echo $this->__('Please wait...'); ?></p>
+</div>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wage_Customreport>
+            <version>0.1.1</version>
+        </Wage_Customreport>
+    </modules>
+    <admin>
+        <routers>
+            <customreport>
+                <use>admin</use>
+                <args>
+                    <module>Wage_Customreport</module>
+                    <frontName>customreport</frontName>
+                </args>
+            </customreport>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <wage_customreport before="Mage_Adminhtml">Wage_Customreport</wage_customreport>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <global>
+        <models>
+            <customreport>
+                <class>Wage_Customreport_Model</class>
+            </customreport>
+            <reports_resource>
+	            <rewrite>
+	                <product_sold_collection>Wage_Customreport_Model_Resource_Product_Sold_Collection</product_sold_collection>
+	            </rewrite>
+        	</reports_resource>
+        </models>
+        <blocks>
+            <customreport>
+                <class>Wage_Customreport_Block</class>
+            </customreport>
+            <adminhtml>
+            	<rewrite>
+            		<report_product_sold_grid>Wage_Customreport_Block_Report_Product_Sold_Grid</report_product_sold_grid>
+            	</rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <customreport>
+                <class>Wage_Customreport_Helper</class>
+            </customreport>
+        </helpers>
+    </global>
+    <adminhtml>
+        <menu>
+            <report>
+                <children>
+                    <customreport translate="title" module="customreport">
+                        <title>Online Reservations</title>
+                        <action>adminhtml/report_product/reservations</action>
+                        <sort_order>0</sort_order>
+                    </customreport>
+                </children>
+            </report>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <customreport translate="title" module="customreport">
+                                    <title>Online Reservations</title>
+                                    <action>adminhtml/report_product/reservations</action>
+                                </customreport>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+</config>
+

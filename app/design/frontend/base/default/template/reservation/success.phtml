@@ -1,0 +1,22 @@
+<?php
+$reservationId = Mage::app()->getRequest()->getParam('id');
+$itemColletion = Mage::getModel('reservation/reservationitem')->getCollection()
+    ->addFieldToFilter('reservation_id',$reservationId);
+?>
+<div class="reservation-store-title"><?php echo $this->__('Find a Store') ?></div>
+<div class="reservation-make-title"><?php echo $this->__('Make a Reservation') ?></div>
+<h2 class="reservation-success-title"><?php echo $this->__('Success!') ?></h2>
+<p><?php echo $this->__('Your order has been processed. You will be receiving:') ?></p>
+
+
+<ul>
+    <?php foreach($itemColletion as $item): ?>
+        <li>
+            <?php $price = Mage::helper('core')->currency($item->getProductPrice(), true, false);?>
+            <div><b><?php echo $this->__('%s qty of %s = %s/lb.*',$item->getOrderedQty(),$item->getProductName(), $price) ?></b></div>
+        </li>
+    <?php endforeach; ?>
+</ul>
+<br/>
+<p><?php echo $this->__('Payment due at pickup.') ?></p>
+<p><?php echo $this->__('*Prices subject to change') ?></p>

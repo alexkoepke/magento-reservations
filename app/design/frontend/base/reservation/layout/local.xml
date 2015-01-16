@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>	
+	<!-- Default category (without layered navigation) -->
+	<catalog_category_default>
+        <reference name="head">
+			<reference name="root">
+				<action method="setTemplate"><template>page/1column.phtml</template></action>
+			</reference>
+			<action method="addJs"><script>reservation/jquery/jquery-1.7.2.min.js</script></action>
+			<action method="addJs"><script>reservation/jquery/jquery-noconflict.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>reservation/jquery-ui.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>reservation/date.js</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>reservation/jquery-ui.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>reservation/reservation.css</name><params/></action>
+        </reference>
+
+		<reference name="product_list">			
+            <block type="reservation/calendar" name="reservation_calendar" template="reservation/calendar.phtml" />			
+		</reference>		
+	</catalog_category_default>
+
+	<!-- Category with layered navigation -->
+	<catalog_category_layered>	
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+        <reference name="head">
+			<action method="addJs"><script>reservation/jquery/jquery-1.7.2.min.js</script></action>
+			<action method="addJs"><script>reservation/jquery/jquery-noconflict.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>reservation/jquery-ui.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>reservation/date.js</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>reservation/jquery-ui.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>reservation/reservation.css</name><params/></action>
+        </reference>		
+		<reference name="product_list">
+            <block type="reservation/calendar" name="reservation_calendar" template="reservation/calendar.phtml" />a
+		</reference>		
+	</catalog_category_layered>
+</layout>

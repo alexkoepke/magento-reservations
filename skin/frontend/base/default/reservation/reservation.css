@@ -1,0 +1,164 @@
+.reservation .product-list { width: 65%; float: left;}
+.reservation .product-list .products { display: inline-block; }
+.reservation .product-list .item { margin-bottom: 30px; }
+.reservation .calendar { width: 35%; float: right;}
+.reservation-store-title, .reservation-make-title { background-color: #993333; color: #FFFFFF; height: 45px; font-size: 16px; font-family: Oswald,georgia,serif; padding: 5px; }
+.reservation-success-title { text-align: center; }
+
+/*@media screen and (max-width: 909px) and (min-width: 520px)  {
+    .reservation .calendar{
+        margin-right: 5em;
+        margin-top: -40em;
+    }
+
+}*/
+
+/*@media screen and (max-width: 519px) {
+    .reservation .calendar{
+        margin-left: 5% ;
+        margin-bottom: 8%;
+        float: left;
+    }
+    .reservation .product-list .products{
+        width: 88%;
+        margin-top: 10px;
+    }
+
+}*/
+
+.category-products ul .item select{
+    border-color: #993333;
+    color: #993333;
+}
+
+
+/*changes for calendar*/
+
+.reservation .category-products ul .item select {
+    border-color: #000000;
+    color: #000000;
+    margin-top: 6px;
+}
+.reservation .calendar {
+    position: relative;
+}
+
+@media screen and (min-width:700px) and (max-width: 909px){
+    .reservation .calendar {
+        margin: 0px;
+        padding: 0px;
+    }
+    .reservation .category-products {
+        text-align: center;
+    }
+    .reservation .category-products ul .item .products {
+        margin: 0;
+        margin-top: 20px;
+        margin-left: 5px;
+    }
+}
+@media screen and (min-width: 250px) and (max-width: 770px) {
+    .reservation .calendar{
+        width: 100%;
+        text-align: center;
+        display: inline-block;
+        top: 0;
+        margin: 0;
+        margin-bottom: 15px;
+    }
+    .reservation .calendar #datepicker {
+        width: 230px;
+        margin: 0 auto;
+    }
+    .reservation .category-products {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .reservation .category-products > ul {
+        margin: 0px;
+    }
+    .reservation .category-products > ul >li {
+        margin: 0 10px;
+    }
+
+    .reservation .product-list .products {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+}
+/*ultimos cambios*/
+.reservation .product-list .products {
+    width: 55%;
+    margin-top: 5px;
+}
+.reservation .products > li {
+    text-align: left;
+    margin-bottom: 25px;
+}
+.reservation .category-products ul .item select {
+    float: right;
+    margin: 0;
+    position: relative;
+    top:-25px;
+}
+.reservation .products > li > span {
+    margin-left: 10px;
+}
+
+@media screen and (min-width: 250px) and (max-width: 915px) {
+    .reservation .product-list .products {
+        width: 65%;
+        margin-top: 15px;
+    }
+    .reservation .category-products {
+        text-align: center;
+    }
+}
+@media screen and (min-width: 470px) and (max-width: 549px) {
+    .category-products ul .item .products {
+        width: 80% !important;
+        margin-top: 15px;
+    }
+}
+@media screen and (min-width: 200px) and (max-width: 469px) {
+    .reservation .products > li .aux {
+        width: 100%;
+        text-align: center;
+    }
+    .reservation .category-products ul .item select {
+        float: none;
+        margin: 5px auto 0;
+        top: 0;
+        text-align: center;
+    }
+    .reservation .products > li {
+        text-align: center;
+    }
+    .reservation .product-list .products {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+}
+@media screen and (min-width:200px ) and (max-width: 300px) {
+
+    .reservation .calendar #datepicker {
+       width: 200px;
+        margin: 0 auto;
+
+    }
+    .reservation .calendar #datepicker .ui-widget-content {
+         width: 190px;
+    }
+}
+
+.reservation .category-products ul .item .aux {
+    width:65%;
+}
+.reservation .category-products ul .item .turkey {
+    top:-40px;
+}
