@@ -27,27 +27,21 @@ class Wage_Customreport_Model_Resource_Product_Sold_Collection extends Mage_Repo
             ->setOrder('ordered_qty', self::SORT_ORDER_DESC);
 			
 			$this->filterReservationProducts();
-			//Mage::log("query ".$this->getSelect()->__toString());
 			return $this;						
     	}
-		
-		//echo $this->getSelect()->__toString();
-    	//Mage::log("setDateRange ".$from."/".$to);
+
 		$this->_reset()
             ->addAttributeToSelect('*')
             ->addOrderedQty($from, $to)
             ->setOrder('ordered_qty', self::SORT_ORDER_DESC);
 			
 		$this->filterProductIds();
-		$this->filterProductType();
 				
         return $this;
     }
 	
 	public function modifiedAddOrderedQty($from = '', $to = '')
     {
-    	
-		
         $this->getSelect()->reset()
             ->from(
                 array('order_items' => $this->getTable('sales_flat_order_item')),
@@ -56,25 +50,17 @@ class Wage_Customreport_Model_Resource_Product_Sold_Collection extends Mage_Repo
                     'order_items_name' => 'order_items.name',
                     'order_items.product_id'
                 ))
-
             ->group('order_items.product_id')
-			//->join(array('item_option' =>$this->getTable('sales_flat_quote_item_option')),
-              //      'order_items.quote_item_id = item_option.item_id',
-                //    array())
-             ->join(array('custom_item' =>$this->getTable('wage_custom_report_order_item')),
+            ->join(array('custom_item' =>$this->getTable('wage_custom_report_order_item')),
                     'order_items.item_id = custom_item.item_id',
                     array())
-			 ->where('product_type="bookable"')
-			 ->where($this->_prepareBetweenSql('custom_item.aw_booking_from', $from, $to));
-			 Mage::log("query ".$this->getSelect()->__toString());
+            ;
         return $this;
     }
 	
 	public function setStoreIds($storeIds)
     {
-    	
     	$action = Mage::app()->getRequest()->getActionName();
-		   	
 		
     	if($action != 'reservations'){   		
     		return parent::setStoreIds($storeIds);
@@ -85,8 +71,6 @@ class Wage_Customreport_Model_Resource_Product_Sold_Collection extends Mage_Repo
 		if(!$storeIds){
     		return $this;
     	}
-		
-		//Mage::log('store ids '.print_r($storeIds,true));
 
 		foreach(explode(",",$storeIds) as $id){
 			if(!is_numeric($id)){
@@ -97,26 +81,6 @@ class Wage_Customreport_Model_Resource_Product_Sold_Collection extends Mage_Repo
 		return parent::setStoreIds(explode(",",$storeIds));
 		
     }
-	
-
-	public function filterProductType()
-    {
-    	$filterType = Mage::getSingleton('core/session')->getCustomReportFilterType();
-				
-		//$this->getSelect()->where(' e.type_id = "simple" ');
-		if($filterType == 1){
-			$this->addAttributeToFilter('type_id','bookable');
-		}
-		elseif($filterType == 2){
-			$this->addAttributeToFilter('type_id',array('neq' => 'bookable'));			
-		}
-		 
-		//getSelect()->where('e.prod IN('.$productIds.')');
-    	
-    	//Mage::log('model productIds '. $productIds);		
-        //Mage::log('model select ' .$this->getSelect()->__toString());//->where('order_items.store_id IN (?)', (array)$storeIds);
-        return $this;
-    }	
 	
 	public function filterProductIds()
     {
@@ -136,9 +100,6 @@ class Wage_Customreport_Model_Resource_Product_Sold_Collection extends Mage_Repo
 		}
 
 		$this->getSelect()->where('e.entity_id IN('.$productIds.')');
-		//$this->addAttributeToFilter('product_id',array('in' => $array));
-    	//Mage::log('model productIds '. $productIds);		
-        //Mage::log('model select ' .$this->getSelect()->__toString());//->where('order_items.store_id IN (?)', (array)$storeIds);
         return $this;
     }
 
@@ -160,9 +121,6 @@ class Wage_Customreport_Model_Resource_Product_Sold_Collection extends Mage_Repo
 		}
 
 		$this->getSelect()->where('order_items.product_id IN('.$productIds.')');
-		//$this->addAttributeToFilter('product_id',array('in' => $array));
-    	//Mage::log('model productIds '. $productIds);		
-        //Mage::log('model select ' .$this->getSelect()->__toString());//->where('order_items.store_id IN (?)', (array)$storeIds);
         return $this;
     }
 

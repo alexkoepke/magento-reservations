@@ -1,6 +1,6 @@
 <?php
 
- require_once(Mage::getModuleDir('controllers','Mage_Adminhtml').DS.'Report'.DS.'ProductController.php');
+require_once(Mage::getModuleDir('controllers','Mage_Adminhtml').DS.'Report'.DS.'ProductController.php');
 class Wage_Customreport_Report_ProductController extends Mage_Adminhtml_Report_ProductController
 {
 	
