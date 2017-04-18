@@ -1,0 +1,16 @@
+{
+    "name": "wagento/magento-reservations",
+    "type": "magento-module",
+    "license": "OSL-3.0",
+    "description": "Wagento Magento Easy Reservations",
+    "homepage": "https://github.com/brentwpeterson/magento-reservations",
+    "authors": [{
+        "name": "Brent W. Peterson",
+        "email": "creativedata@gmail.com",
+        "homepage": "http://www.wagento.com",
+        "name": "Alex Koepke"
+    }],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
